@@ -6,7 +6,6 @@ class Auction(models.Model):
     """
     Auctions model
     """
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     description = models.TextField()
