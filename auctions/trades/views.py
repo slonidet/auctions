@@ -1,6 +1,4 @@
 from rest_framework import mixins, generics
-from rest_framework.authentication import TokenAuthentication, \
-    SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from trades.models import Auction, Bid
