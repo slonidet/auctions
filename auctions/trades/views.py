@@ -11,7 +11,6 @@ class AuctionViewSet(mixins.RetrieveModelMixin, generics.ListCreateAPIView):
     queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
     permission_classes = (IsAuthenticated,)
-    authentication_classes = (TokenAuthentication, SessionAuthentication)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -20,3 +19,7 @@ class AuctionViewSet(mixins.RetrieveModelMixin, generics.ListCreateAPIView):
 class BidViewSet(generics.CreateAPIView):
     queryset = Bid.objects.all()
     serializer_class = BidSerializer
+    permission_classes = (IsAuthenticated, )
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
