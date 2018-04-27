@@ -15,3 +15,16 @@ class Auction(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Bid(models.Model):
+    """
+    Bid model
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
+    amount = models.IntegerField()
+
+    def __str__(self):
+        return '{user}, {auction}, {amount}'.format(
+            user=self.user, auction=self.auction, amount=self.amount)
