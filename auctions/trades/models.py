@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Max
 
 
 class Auction(models.Model):
@@ -12,6 +13,10 @@ class Auction(models.Model):
     start_price = models.IntegerField()
     price_step = models.IntegerField()
     finish_time = models.DateTimeField()
+
+    @property
+    def current_bid(self):
+        return Bid.objects.filter(auction=self.id).aggregate(Max('amount'))
 
     def __str__(self):
         return self.title

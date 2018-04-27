@@ -20,6 +20,6 @@ from trades import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auctions/', views.AuctionViewSet.as_view({'get': 'list'})),
+    path('trades/', include('trades.urls')),
     path('users/', include('users.urls'))
 ]
