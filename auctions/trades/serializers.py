@@ -25,16 +25,13 @@ class BidSerializer(serializers.ModelSerializer):
         current bid amount
         """
         auction = attrs.get('auction')
+        message = 'The bid must be at least ${st} more than ${am}'.format(
+            st=auction.price_step, am=auction.current_bid)
 
         if attrs.get('amount') % auction.price_step:
-            raise serializers.ValidationError(
-                'Your bid must be at least $ {step} more than current '
-                'bid ($ {amount})'.format(step=auction.price_step,
-                                          amount=auction.current_bid))
-        # if attrs.get('amount') <= auction.current_bid:
-        #     raise serializers.ValidationError(
-        #         'Your bid must be bigger than current bid ($ {amount)'.format(
-        #             amount=auction.current_bid
-        #         )
-        #     )
+            raise serializers.ValidationError(message)
+
+        if attrs.get('amount') <= auction.current_bid:
+            raise serializers.ValidationError(message)
+
         return attrs

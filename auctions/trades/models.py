@@ -16,7 +16,8 @@ class Auction(models.Model):
 
     @property
     def current_bid(self):
-        return Bid.objects.filter(auction=self.id).aggregate(Max('amount'))
+        aggr = Bid.objects.filter(auction=self.id).aggregate(Max('amount'))
+        return aggr['amount__max']
 
     def __str__(self):
         return self.title
