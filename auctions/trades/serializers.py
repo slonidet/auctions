@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from trades.models import Auction, Bid
@@ -10,6 +11,26 @@ class AuctionSerializer(serializers.ModelSerializer):
         model = Auction
         fields = '__all__'
         read_only_fields = ('user',)
+
+
+class AuctionRetrieveSerializer(serializers.ModelSerializer):
+    bids = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Auction
+        fields = ('user', 'id', 'bids')
+        read_only_fields = ('user',)
+
+    def get_bids(self, obj):
+        bids = Bid.objects.filter(auction=obj).values('amount', 'user')
+        user_ids = [bid['user'] for bid in bids]
+        users = User.objects.filter(id__in=user_ids).values('id', 'email')
+        print(users)
+        print(bids)
+        # for bid in bids:
+        #     username = users['email']
+
+        return bids
 
 
 class BidSerializer(serializers.ModelSerializer):

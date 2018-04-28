@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Max
+from django.utils import timezone
 
 
 class Auction(models.Model):
@@ -17,7 +18,13 @@ class Auction(models.Model):
     @property
     def current_bid(self):
         aggr = Bid.objects.filter(auction=self.id).aggregate(Max('amount'))
+        if not aggr['amount__max']:
+            return 0
         return aggr['amount__max']
+
+    @property
+    def is_active(self):
+        return self.finish_time > timezone.now()
 
     def __str__(self):
         return self.title
