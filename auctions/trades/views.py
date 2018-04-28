@@ -35,4 +35,8 @@ class BidViewSet(generics.CreateAPIView):
         if owner.id == user.id:
             raise PermissionDenied(
                 "You can't do bids since you're auction's owner")
+        if not auction.is_active:
+            raise PermissionDenied(
+                "This auction is expired"
+            )
         serializer.save(user=user)
