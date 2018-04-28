@@ -10,7 +10,7 @@ class AuctionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Auction
         fields = '__all__'
-        read_only_fields = ('user',)
+        read_only_fields = ('user', 'winner')
 
 
 class AuctionRetrieveSerializer(serializers.ModelSerializer):
