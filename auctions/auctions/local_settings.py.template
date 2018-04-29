@@ -25,3 +25,8 @@ EMAIL_HOST_USER = 'auctions@gmail.com'
 EMAIL_HOST_PASSWORD = 'qweqwe'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+
+# Celery
+
+CELERY_BROKER_URL = "redis://localhost:6379/X"
