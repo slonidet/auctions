@@ -9,5 +9,5 @@ router = DefaultRouter()
 router.register(r'auctions', AuctionViewSet, base_name='auctions')
 
 urlpatterns = [
-    url('bids', views.BidViewSet.as_view(), name='bids')
+    url('bids', views.BidAPIView.as_view(), name='bids')
 ] + router.urls

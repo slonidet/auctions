@@ -6,6 +6,7 @@ from trades.models import Auction, Bid
 
 class AuctionSerializer(serializers.ModelSerializer):
     current_bid = serializers.ReadOnlyField()
+    is_active = serializers.ReadOnlyField()
 
     class Meta:
         model = Auction

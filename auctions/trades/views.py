@@ -1,4 +1,4 @@
-from django.http import HttpResponseForbidden
+from django.utils import timezone
 from rest_framework import mixins, generics
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
@@ -22,8 +22,27 @@ class AuctionViewSet(ModelViewSet):
             return serializers.AuctionRetrieveSerializer
         return super().get_serializer_class()
 
+    def filter_active(self, qs):
+        return qs.filter(finish_time__gte=timezone.now())
 
-class BidViewSet(generics.CreateAPIView):
+    def filter_inactive(self, qs):
+        return qs.filter(finish_time__lt=timezone.now())
+
+    def get_queryset(self):
+        qs = super(AuctionViewSet, self).get_queryset()
+        is_active = self.request.GET.get('is_active', None)
+        if is_active is None:
+            pass
+        elif is_active == 'true':
+            qs = self.filter_active(qs)
+        elif is_active == 'false':
+            qs = self.filter_inactive(qs)
+        else:
+            pass
+        return qs
+
+
+class BidAPIView(generics.CreateAPIView):
     queryset = Bid.objects.all()
     serializer_class = BidSerializer
     permission_classes = (IsAuthenticated,)
