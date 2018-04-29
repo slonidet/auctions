@@ -23,14 +23,8 @@ class AuctionRetrieveSerializer(serializers.ModelSerializer):
         read_only_fields = ('user',)
 
     def get_bids(self, obj):
-        bids = Bid.objects.filter(auction=obj).values('amount', 'user')
-        user_ids = [bid['user'] for bid in bids]
-        users = User.objects.filter(id__in=user_ids).values('id', 'email')
-        print(users)
-        print(bids)
-        # for bid in bids:
-        #     username = users['email']
-
+        bids = Bid.objects.filter(auction=obj).values(
+            'amount', 'user__first_name', 'user__last_name')
         return bids
 
 
