@@ -20,5 +20,7 @@ def notificate_expired_auction():
         )
         users = users.exclude(winner)
         email = EmailMessage(title, body, to=[user.email for user in users])
-        if not auctions.is_active:
+        if not (auctions.is_active and auction.exp_email_sent):
             email.send()
+            auction.exp_email_sent = True
+            auction.save()

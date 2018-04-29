@@ -18,6 +18,10 @@ class Auction(models.Model):
     start_price = models.IntegerField()
     price_step = models.IntegerField()
     finish_time = models.DateTimeField()
+    exp_email_sent = models.BooleanField(
+        help_text='shows if expiration email was sent on this auction',
+        default=False
+    )
 
     @property
     def current_bid(self):
