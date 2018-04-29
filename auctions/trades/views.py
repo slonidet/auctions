@@ -2,14 +2,17 @@ from django.utils import timezone
 from rest_framework import mixins, generics
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.viewsets import ViewSetMixin, ModelViewSet
+from rest_framework.viewsets import GenericViewSet
 
 from trades import serializers
 from trades.models import Auction, Bid
 from trades.serializers import AuctionSerializer, BidSerializer
 
 
-class AuctionViewSet(ModelViewSet):
+class AuctionViewSet(mixins.CreateModelMixin,
+                     mixins.RetrieveModelMixin,
+                     mixins.ListModelMixin,
+                     GenericViewSet):
     queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
     permission_classes = (IsAuthenticated,)
