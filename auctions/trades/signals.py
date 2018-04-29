@@ -16,7 +16,7 @@ def auction_creation_mail(sender, instance, created, **kwargs):
         body = 'You can take a part in this auction: {title}'.format(
             title=instance.title
         )
-        users = User.objects.filter(is_active=True)
+        users = User.objects.filter(is_active=True).exclude(auction=instance)
         email = EmailMessage(title, body, to=[user.email for user in users])
         email.send()
 
@@ -28,7 +28,8 @@ def auction_notifications_mail(sender, instance, created, **kwargs):
     """
     if created:
         auction = Auction.objects.get(bid=instance)
-        users = User.objects.filter(is_active=True, auction=auction)
+        users = User.objects.filter(
+            is_active=True, auction=auction).exclude(bid=instance)
         title = "The price on {ttl} was changed".format(ttl=auction.title)
         body = "The price on {ttl} was changed to {am}".format(
             ttl=auction.title, am=instance.amount)
