@@ -143,7 +143,7 @@ REST_FRAMEWORK = {
 
 CELERY_BROKER_URL = ""
 CELERY_BEAT_SCHEDULE = {
-    'alert_users': {
+    'notificate_expired_auction': {
         'task': 'notificate_expired_auction',
         'schedule': crontab(minute=0, hour=0),
     }
