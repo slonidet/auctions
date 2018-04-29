@@ -13,6 +13,10 @@ class AuctionViewSet(mixins.CreateModelMixin,
                      mixins.RetrieveModelMixin,
                      mixins.ListModelMixin,
                      GenericViewSet):
+    """
+    Add 'is_active' equals 'true' or 'false' to GET params
+    to filter active/inactive auctions
+    """
     queryset = Auction.objects.all()
     serializer_class = AuctionSerializer
     permission_classes = (IsAuthenticated,)
